@@ -23,7 +23,15 @@
 
             <h2>Contents</h2>
             <ul>
-  <li><a href="#kepware-configuration-kepconfig-api-library"><strong>Kepware Configuration (kepconfig) API Library</strong></a></li>
+  <li><a href="#kepware-configuration-api-sdk-for-python">Kepware Configuration API SDK for Python</a>
+  <ul>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#known-limitations">Known Limitations</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#key-concepts">Key Concepts</a></li>
+    <li><a href="#need-more-information">Need More Information</a></li>
+  </ul></li>
 </ul>
 
 
@@ -57,15 +65,234 @@
                     <h1 class="modulename">
 kepconfig    </h1>
 
-                        <div class="docstring"><h2 id="kepware-configuration-kepconfig-api-library"><strong>Kepware Configuration (kepconfig) API Library</strong></h2>
+                        <div class="docstring"><h1 id="kepware-configuration-api-sdk-for-python">Kepware Configuration API SDK for Python</h1>
 
-<p>This is a package to help create Python applications to conduct operations with the Kepware Configuration API. 
-This package is designed to work with all versions of Kepware that support the Configuration API including 
-Thingworx Kepware Server (TKS), Thingworx Kepware Edge (TKE) and KEPServerEX (KEP).</p>
+<p><a href="https://pypi.org/project/kepconfig"><img src="https://img.shields.io/pypi/v/kepconfig" alt="Released Version" /></a> <a href="https://pypi.org/project/kepconfig"><img src="https://img.shields.io/pypi/pyversions/kepconfig" alt="Supported Versions" /></a> <img src="https://img.shields.io/pypi/dm/kepconfig" alt="PyPI - Downloads" /> <img src="https://img.shields.io/pypi/l/kepconfig" alt="PyPI - License" /></p>
 
-<p>Copyright (c) PTC Inc. and/or all its affiliates. All rights reserved.
-See License.txt in the project root for
-license information.</p>
+<p>This is a package to help create Python applications to conduct operations with the Kepware Configuration API. This package is designed to work with all versions of Kepware that support the Configuration API including Thingworx Kepware Server (TKS), Thingworx Kepware Edge (TKE) and KEPServerEX (KEP).</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Package supported and tested on Python 3.9 or later. Older versions support earlier Python 3 environments but have less functionality. All HTTP communication is handled by the <a href="https://docs.python.org/3/library/urllib.html#module-urllib">urllib</a> Python standard library.</p>
+
+<h2 id="features">Features</h2>
+
+<ul>
+<li>Supports both HTTP and HTTPS connections with certificate validation options</li>
+</ul>
+
+<p>SDK allows for <em>GET</em>, <em>ADD</em>, <em>DELETE</em>, and <em>MODIFY</em> functions for the following Kepware configuration objects:</p>
+
+<table>
+<thead>
+<tr>
+  <th style="text-align:center;">Features</th>
+  <th style="text-align:center;">TKS/KEP</th>
+  <th style="text-align:center;">TKE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:center;"><strong>Project Properties</strong> <br /> <em>(Get and Modify Only)</em></td>
+  <td style="text-align:center;">Y</td>
+  <td style="text-align:center;">Y</td>
+</tr>
+<tr>
+  <td style="text-align:center;"><strong>Connectivity</strong> <br /> <em>(Channel, Devices, Tags, Tag Groups)</em></td>
+  <td style="text-align:center;">Y</td>
+  <td style="text-align:center;">Y</td>
+</tr>
+<tr>
+  <td style="text-align:center;"><strong>IoT Gateway</strong> <br /> <em>(Agents, IoT Items)</em></td>
+  <td style="text-align:center;">Y</td>
+  <td style="text-align:center;">Y</td>
+</tr>
+<tr>
+  <td style="text-align:center;"><strong>Datalogger</strong> <br /> <em>(Log Groups, Items, Mapping, Triggers, Reset Mapping Service)</em></td>
+  <td style="text-align:center;">Y</td>
+  <td style="text-align:center;">Y</td>
+</tr>
+<tr>
+  <td style="text-align:center;"><strong>Administration</strong> <br /> <em>(User Groups, Users, UA Endpoints, Local License Server)</em></td>
+  <td style="text-align:center;">Y*</td>
+  <td style="text-align:center;">Y</td>
+</tr>
+<tr>
+  <td style="text-align:center;"><strong>Product Info and Health Status**</strong></td>
+  <td style="text-align:center;">Y</td>
+  <td style="text-align:center;">Y</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>Note (*) - UA Endpoints and Local License Server supported for Kepware Edge only</li>
+<li>Note (**) - Added to Kepware Server v6.13 / Kepware Edge v1.5 and later builds</li>
+</ul>
+
+<p>Driver specific features:</p>
+
+<table>
+<thead>
+<tr>
+  <th style="text-align:center;">Driver</th>
+  <th style="text-align:center;">Features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:center;">GE Ethernet Global Data</td>
+  <td style="text-align:center;">Exchanges, Ranges and Name Resolutions</td>
+</tr>
+<tr>
+  <td style="text-align:center;">Universal Device Driver</td>
+  <td style="text-align:center;">Profile Library</td>
+</tr>
+</tbody>
+</table>
+
+<p>Methods to read the following logs:</p>
+
+<table>
+<thead>
+<tr>
+  <th style="text-align:center;">Logs</th>
+  <th style="text-align:center;">TKS/KEP</th>
+  <th style="text-align:center;">TKE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:center;"><strong>Event Log</strong></td>
+  <td style="text-align:center;">Y</td>
+  <td style="text-align:center;">Y</td>
+</tr>
+<tr>
+  <td style="text-align:center;"><strong>API Transaction Log</strong></td>
+  <td style="text-align:center;">Y</td>
+  <td style="text-align:center;">Y</td>
+</tr>
+</tbody>
+</table>
+
+<p>Configuration API <em>Services</em> implemented:</p>
+
+<table>
+<thead>
+<tr>
+  <th style="text-align:center;">Services</th>
+  <th style="text-align:center;">TKS/KEP</th>
+  <th style="text-align:center;">TKE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:center;"><strong>TagGeneration</strong><br /><em>(for supported drivers)</em></td>
+  <td style="text-align:center;">Y</td>
+  <td style="text-align:center;">Y</td>
+</tr>
+<tr>
+  <td style="text-align:center;"><strong>ReinitializeRuntime</strong></td>
+  <td style="text-align:center;">Y*</td>
+  <td style="text-align:center;">Y</td>
+</tr>
+<tr>
+  <td style="text-align:center;"><strong>ProjectLoad and ProjectSave</strong></td>
+  <td style="text-align:center;">Y</td>
+  <td style="text-align:center;">Y</td>
+</tr>
+</tbody>
+</table>
+
+<p>Note (*) - Reinitialize service was implemented for Kepware Server v6.8+</p>
+
+<p>Filtering, sorting and pagination query options are added for any collections methods (ex: get_all_devices() or get_all_channel()).</p>
+
+<p>Generic REST methods are provided to use for functions not developed in SDK package. These are found in the Server Class in <a href="./kepconfig/connection.py">connection.py</a></p>
+
+<h2 id="known-limitations">Known Limitations</h2>
+
+<ul>
+<li>Other property configuration for more complex drivers with objects besides channels, devices, tags and tag groups are not always explicitly defined</li>
+<li>Other supported plug-ins (EFM Exporter, Scheduler, etc) are not defined</li>
+<li>When using hostnames (not IP addresses) for connections, delays may occur under certain network configurations as the connection may attempt IPv6 connections first. IPv6 is not supported by Kepware servers at this time.</li>
+</ul>
+
+<h2 id="installation">Installation</h2>
+
+<p>Package can be installed with <code>pip</code> using the following:</p>
+
+<pre><code>    pip install kepconfig
+</code></pre>
+
+<h2 id="key-concepts">Key Concepts</h2>
+
+<p>NOTE: Detailed examples can also be found in the <a href="./examples/">examples</a> folder.</p>
+
+<h3 id="create-server-connection">Create server connection</h3>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="kn">import</span> <span class="nn"><a href="kepconfig/connection.html">kepconfig.connection</a></span>
+
+<span class="n">server</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">server</span><span class="p">(</span><span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span> <span class="o">=</span> <span class="mi">57412</span><span class="p">,</span> <span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;Administrator&#39;</span><span class="p">,</span> <span class="n">pw</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="c1"># For HTTPS connections:</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">server</span><span class="p">(</span><span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span> <span class="o">=</span> <span class="mi">57512</span><span class="p">,</span> <span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;Administrator&#39;</span><span class="p">,</span> <span class="n">pw</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">https</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>For certificate validation, the SDK uses the OS/systems trusted CA certificate store. The connection uses the "create_default_context()" function as part of urllib as described at the following links:</p>
+
+<ul>
+<li><a href="https://docs.python.org/3/library/ssl.html#ssl.create_default_context">ssl.create_default_context</a></li>
+<li><a href="https://docs.python.org/3/library/ssl.html#ssl.SSLContext.load_default_certs">ssl.SSLContext.load_default_certs</a></li>
+<li><a href="https://docs.python.org/3/library/ssl.html#ssl.SSLContext.set_default_verify_paths">set_default_verify_paths</a></li>
+</ul>
+
+<p>For Windows OSes, the Kepware server's instance certificate can be loaded into the hosts "Trusted Root Certificate Authorities" store.</p>
+
+<h3 id="create-an-object">Create an object</h3>
+
+<p>Objects such as channels or devices can be created either singularly or with children included.</p>
+
+<h3 id="ex-add-single-channel">Ex: Add Single channel</h3>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="kn">from</span> <span class="nn"><a href="kepconfig/connectivity.html">kepconfig.connectivity</a></span> <span class="kn">import</span> <span class="n">channel</span>
+
+<span class="n">channel_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;common.ALLTYPES_NAME&quot;</span><span class="p">:</span> <span class="s2">&quot;Channel1&quot;</span><span class="p">,</span><span class="s2">&quot;servermain.MULTIPLE_TYPES_DEVICE_DRIVER&quot;</span><span class="p">:</span> <span class="s2">&quot;Simulator&quot;</span><span class="p">}</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">channel</span><span class="o">.</span><span class="n">add_channel</span><span class="p">(</span><span class="n">server</span><span class="p">,</span><span class="n">channel_data</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h3 id="ex-add-multiple-tags">Ex: Add Multiple tags</h3>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="kn">from</span> <span class="nn"><a href="kepconfig/connectivity.html">kepconfig.connectivity</a></span> <span class="kn">import</span> <span class="n">tag</span>
+
+<span class="n">tag_info</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+            <span class="s2">&quot;common.ALLTYPES_NAME&quot;</span><span class="p">:</span> <span class="s2">&quot;Temp&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;servermain.TAG_ADDRESS&quot;</span><span class="p">:</span> <span class="s2">&quot;R0&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+            <span class="s2">&quot;common.ALLTYPES_NAME&quot;</span><span class="p">:</span> <span class="s2">&quot;Temp2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;servermain.TAG_ADDRESS&quot;</span><span class="p">:</span> <span class="s2">&quot;R1&quot;</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+<span class="n">tag_path</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ch_name</span><span class="p">,</span> <span class="n">dev_name</span><span class="p">,</span> <span class="n">tag_group_path</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">add_tag</span><span class="p">(</span><span class="n">server</span><span class="p">,</span> <span class="n">tag_path</span><span class="p">,</span> <span class="n">tag_info</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<h2 id="need-more-information">Need More Information</h2>
+
+<p><strong>Visit:</strong></p>
+
+<ul>
+<li><a href="https://www.kepware.com/">Kepware.com</a></li>
+<li><a href="https://www.ptc.com/">PTC.com</a></li>
+</ul>
 </div>
 
                         <input id="mod-kepconfig-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -77,23 +304,27 @@ license information.</p>
 </span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="c1"># See License.txt in the project root for</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="c1"># license information.</span>
 </span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="c1"># --------------------------------------------------------------------------</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="c1"># r&quot;&quot;&quot;</span>
 </span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="sd">**Kepware Configuration (kepconfig) API Library**</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">--</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="c1"># **Kepware Configuration (kepconfig) API Library**</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="c1"># --</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">This is a package to help create Python applications to conduct operations with the Kepware Configuration API. </span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">This package is designed to work with all versions of Kepware that support the Configuration API including </span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">Thingworx Kepware Server (TKS), Thingworx Kepware Edge (TKE) and KEPServerEX (KEP).</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="c1"># This is a package to help create Python applications to conduct operations with the Kepware Configuration API. </span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="c1"># This package is designed to work with all versions of Kepware that support the Configuration API including </span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="c1"># Thingworx Kepware Server (TKS), Thingworx Kepware Edge (TKE) and KEPServerEX (KEP).</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">Copyright (c) PTC Inc. and/or all its affiliates. All rights reserved.</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">See License.txt in the project root for</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="sd">license information.</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="c1"># Copyright (c) PTC Inc. and/or all its affiliates. All rights reserved.</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="c1"># See License.txt in the project root for</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="c1"># license information.</span>
 </span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.2.0&quot;</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">connection</span><span class="p">,</span> <span class="n">error</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">path_split</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="c1"># &quot;&quot;&quot;</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">.. include:: ../README.md</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.2.0&quot;</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">connection</span><span class="p">,</span> <span class="n">error</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">path_split</span>
 </span></pre></div>
 
 
